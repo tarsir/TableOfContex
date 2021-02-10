@@ -4,6 +4,15 @@ defmodule TableOfContex do
   """
   @table_header ["## Table of Contents\n"]
 
+  @doc false
+  def generate_for_file(filename) do
+    case File.read(filename) do
+      {:ok, file} -> IO.puts(TableOfContex.generate(file))
+      {:error, :enoent} -> "File does not exist"
+      {:error, err} -> "Unknown error: #{err}"
+    end
+  end
+
   @doc """
   Generate a 
   """
@@ -19,11 +28,15 @@ defmodule TableOfContex do
     lines = String.split(markdown_string, "\n")
     section_heads = Enum.filter(lines, &(String.starts_with?(&1, "##")))
     sections_formatted = build_toc(section_heads)
-    {summary, main_body} = split_by_toc_position(lines)
+    if Enum.empty?(sections_formatted) do
+      markdown_string
+    else
+      {summary, main_body} = split_by_toc_position(lines)
 
-    [summary, @table_header, sections_formatted, [], main_body]
-    |> Enum.map(&(Enum.join(&1, "\n")))
-    |> Enum.join("\n")
+      [summary, @table_header, sections_formatted, [], main_body]
+      |> Enum.map(&(Enum.join(&1, "\n")))
+      |> Enum.join("\n")
+    end
   end
 
   defp split_by_toc_position(lines) do
