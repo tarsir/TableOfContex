@@ -1,6 +1,6 @@
 # TableOfContex
 
-**TODO: Add description**
+A `README.md` table of contents generator written in Elixir!
 
 ## Installation
 
@@ -14,6 +14,8 @@ def deps do
   ]
 end
 ```
+
+### More information
 
 Documentation can be generated with [ExDoc](https://github.com/elixir-lang/ex_doc)
 and published on [HexDocs](https://hexdocs.pm). Once published, the docs can
